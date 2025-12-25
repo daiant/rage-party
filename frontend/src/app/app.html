@@ -1,0 +1,31 @@
+<label>
+    Join room
+    <input type="text" [field]="form.room" />
+</label>
+<label>
+    Nombre
+    <input type="text" [field]="form.name" />
+</label>
+<button type="button" (click)="joinRoom()">Join room</button>
+
+@if(roomService.availableListeners()) {
+    <ul>
+        @for(listener of roomService.availableListeners(); track listener) {
+            <li>{{listener}}</li>
+        }
+    </ul>
+}
+
+@for (event of eventsReceived(); track $index) {
+    <p>{{event}}</p>
+}
+
+<div [hidden]="!roomService.anyRoomJoined()">
+    <label>
+        Search youtube video
+        <input type="search" [field]="form.url"  style="min-width: 300px; height: 2em"/>
+        <button (click)="search($event)" type="button">Search</button>
+    </label>
+
+    <ntv-video-player [onPlayerStateChange]="onPlayerStateChange" />
+</div>
