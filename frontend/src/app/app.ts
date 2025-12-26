@@ -4,10 +4,11 @@ import {VideoPlayerComponent} from "./components/video-player";
 import {VideoService} from "./services/video.service";
 import {RoomService} from "./services/room.service";
 import {DirectorService} from "./services/director.service";
+import {VideoSearcherComponent} from "./components/video-searcher";
 
 @Component({
   selector: 'app-root',
-  imports: [Field, VideoPlayerComponent],
+  imports: [Field, VideoPlayerComponent, VideoSearcherComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

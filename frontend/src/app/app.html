@@ -32,6 +32,7 @@
 }
 
 <div [hidden]="!roomService.anyRoomJoined()">
+    <rp-video-searcher />
     <label>
         Search youtube video
         <input type="search" [field]="form.url"  style="min-width: 300px; height: 2em"/>
