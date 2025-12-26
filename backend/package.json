@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "npx tsc -w & node --watch dist/server.js"
+    "start": "npx tsc -w & node --watch dist/server.js",
+    "prod": "npx tsc && node dist/server.js"
   },
   "type": "module",
   "dependencies": {

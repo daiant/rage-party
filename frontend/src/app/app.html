@@ -1,12 +1,27 @@
-<label>
-    Join room
-    <input type="text" [field]="form.room" />
-</label>
-<label>
-    Nombre
-    <input type="text" [field]="form.name" />
-</label>
-<button type="button" (click)="joinRoom()">Join room</button>
+@if(!roomService.anyRoomJoined()) {
+    <div>
+        <label>
+            Host your room
+            <input type="checkbox" [field]="form.host" />
+        </label>
+    </div>
+    <label>
+        Join room
+        <input type="text" [field]="form.room" />
+    </label>
+    <label>
+        Nombre
+        <input type="text" [field]="form.name" />
+    </label>
+    <button type="button" (click)="joinRoom()">
+        @if(form.host().value()) {Host room} @else {Join room}
+    </button>
+} @else {
+    <div>
+        <span>You are in room "{{roomService.getId()}}"</span>
+        <button type="button" (click)="leaveRoom()">Leave room</button>
+    </div>
+}
 
 @if(roomService.availableListeners()) {
     <ul>

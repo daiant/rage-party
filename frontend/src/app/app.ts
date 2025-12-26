@@ -12,7 +12,7 @@ import {DirectorService} from "./services/director.service";
   styleUrl: './app.css'
 })
 class App {
-  form = form(signal({url: '', room: '', name: ''}));
+  form = form(signal({url: '', room: '', name: '', host: false}));
   videoService = inject(VideoService);
   roomService = inject(RoomService);
   directorService = inject(DirectorService);
@@ -33,8 +33,14 @@ class App {
 
   protected async joinRoom() {
     const roomId = this.form().value().room;
+
+    if(this.form().value().host) {
+      await this.roomService.createRoom(roomId);
+    }
+
     const name = this.form().value().name;
     const room = await this.roomService.joinRoom(roomId, name);
+    console.log(room);
 
     if (!room) return;
 
@@ -72,6 +78,9 @@ class App {
     }
   }
 
+  protected leaveRoom() {
+    void this.roomService.leaveRoom();
+  }
 }
 
 export default App

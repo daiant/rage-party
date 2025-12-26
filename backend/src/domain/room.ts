@@ -63,6 +63,7 @@ export class Room {
 
   removeListener(name: string): void {
     this.listeners = this.listeners.filter(listener => listener !== name);
+    this.addEvent('listener_left', name);
   }
 
   addListener(name: string) {

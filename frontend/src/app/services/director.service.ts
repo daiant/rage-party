@@ -35,7 +35,7 @@ export class DirectorService {
         };
 
         if (event.type === 'timestamp_request') {
-          await room.setCurrentTimestamp(roomId, video.getCurrentTime());
+          await room.setCurrentTimestamp(video.getCurrentTime());
         } else if (event.type === 'current_timestamp' && event.data?.currentTimestamp) {
           console.log('Received timestamp: ', event.data.currentTimestamp);
           video.seekTo(event.data.currentTimestamp);
@@ -47,6 +47,8 @@ export class DirectorService {
           video.playVideo(event.data.videoId);
         } else if (event.type === 'listener_joined') {
           room.addListener(event.emitter);
+        } else if (event.type === 'listener_left') {
+          room.removeListener(event.emitter);
         }
       }
     }

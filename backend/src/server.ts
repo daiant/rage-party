@@ -21,6 +21,14 @@ app.get('/room/:roomId', (req, res) => {
     room.requestTimestamp(name);
 });
 
+app.delete('/room/:roomId/listener/:listener', (req, res) => {
+    const roomId = req.params.roomId;
+    const listener = req.params.listener;
+    
+    rooms.get(roomId)?.removeListener(listener);
+    res.status(200).send('ok');
+})
+
 app.get('/room/:roomId/streaming', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Content-Type', 'text/event-stream');
@@ -86,7 +94,7 @@ app.post('/room/:roomId/currentTimestamp', (req, res) => {
     if(!room) return res.status(404).send('Room not found');
     room.updateCurrentTimestamp(req.query.name as string, req.body.currentTimestamp as number);
     res.status(200).send('ok');
-})
+});
 
 app.listen(port, () => {
     console.log(`Rage party listening on port ${port}`)
