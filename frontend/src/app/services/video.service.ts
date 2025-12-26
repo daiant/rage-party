@@ -63,10 +63,13 @@ export class VideoService {
   }
 
   pauseVideo() {
+    if(this.player.getPlayerState() === (<any>window).YT.PlayerState.PAUSED) {return;}
+
     this.player.pauseVideo();
   }
 
   resumeVideo() {
+    if(this.player.getPlayerState() === (<any>window).YT.PlayerState.PLAYING) {return;}
     this.player.playVideo();
   }
 

@@ -1,53 +1,56 @@
-export type RoomEvent = {
-  type: string;
-  consumed: {id: string, consumed: boolean}[];
-  id: string;
-  data?: any;
+import {RoomEvent, RoomEvents} from "./room-event.js";
+
+export enum RoomPlayerState {
+  PLAYING = 1,
+  PAUSED = 2,
+  BUFFERING = 3,
+  ENDED = 0,
+  NOT_STARTED = -1,
 }
 
 export type RoomId = string;
-
 export class Room {
   private readonly roomId: RoomId;
   listeners: string[] = [];
   videoId: string | null = null;
-  playerMetadata: { currentTimestamp: number } | null = null;
-  events: RoomEvent[] = [];
+  playerMetadata: Partial<{ currentTimestamp: number, state: RoomPlayerState }> | null = null;
+  events: RoomEvents = new RoomEvents([]);
 
   constructor(roomId: RoomId) {
     this.roomId = roomId;
-    this.addEvent({type: 'room_created', id: Math.random().toString()});
+    this.addEvent('room_created', 'system');
   }
 
-  private addEvent(event: Omit<RoomEvent, 'consumed'>) {
-    this.events.push({...event, consumed: this.listeners.map(listener => ({id: listener, consumed: false}))});
+  private addEvent(event: string, emitter: 'system' | string & {}, data?: any): void {
+    this.addEventToListeners(event, emitter, this.listeners, data);
+  }
+
+  private addEventToListeners(event: string, emitter: 'system' | string & {}, listeners: string[], data?: any): void {
+    this.events.addEvent(
+      new RoomEvent(
+        event,
+        emitter ?? 'unknown',
+        data,
+        listeners,
+      )
+    );
   }
 
   public getPendingEvents(name: string): RoomEvent[] {
-    return this.events.filter(event => {
-      if(event.consumed.length <= 0) return false;
-      return event.consumed.some(consumed => consumed.id === name && !consumed.consumed);
-    });
+    return this.events.getPendingEventsByConsumer(name);
   }
 
-  public addVideo(id: string) {
+  public addVideo(id: string, emitter: string) {
     this.videoId = id;
-    this.addEvent({type: 'video_added', id: Math.random().toString()});
+    this.addEvent('video_added', emitter, {videoId: id});
   }
 
-  public requestTimestamp(): void {
+  public requestTimestamp(emitter: string): void {
     if(!this.videoId) return;
 
-    this.addEvent({type: 'timestamp_request', id: Math.random().toString()});
+    this.addEvent('timestamp_request', emitter);
   }
 
-  public addMetadata(body: any): void {
-    this.playerMetadata = {
-      ...this.playerMetadata,
-      ...body,
-    };
-    this.addEvent({type: 'player_metadata', data: this.playerMetadata, id: Math.random().toString()});
-  }
 
   public toClient()  {
     return {
@@ -63,6 +66,28 @@ export class Room {
   }
 
   addListener(name: string) {
-    if(!this.listeners.includes(name)) this.listeners.push(name);
+    if(this.listeners.includes(name)) return;
+
+    this.listeners.push(name);
+    this.addEvent('listener_joined', name);
+  }
+
+  pauseVideo(emitter: string = 'system') {
+    if(this.playerMetadata?.state === RoomPlayerState.PAUSED) return;
+    this.playerMetadata = {...(this.playerMetadata ?? {}), state: RoomPlayerState.PAUSED};
+
+    this.addEvent('video_paused', emitter);
+  }
+
+  resumeVideo(emitter: string) {
+    if(this.playerMetadata?.state === RoomPlayerState.PLAYING) return;
+    this.playerMetadata = {...(this.playerMetadata ?? {}), state: RoomPlayerState.PLAYING};
+
+    this.addEvent('video_resumed', emitter);
+    this.addEventToListeners('timestamp_request', 'system', [emitter]);
+  }
+
+  updateCurrentTimestamp(emitter: string, currentTimestamp: number) {
+    this.addEvent('current_timestamp', emitter, {currentTimestamp});
   }
 }

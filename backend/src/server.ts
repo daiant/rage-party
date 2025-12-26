@@ -1,6 +1,6 @@
 import express from "express";
 import cors from 'cors';
-import {Room, type RoomId} from "./domain/room.ts";
+import {Room, type RoomId} from "./domain/room.js";
 
 const app = express();
 const port = 5723;
@@ -18,7 +18,7 @@ app.get('/room/:roomId', (req, res) => {
     room.addListener(name);
     res.json(room.toClient());
 
-    room.requestTimestamp();
+    room.requestTimestamp(name);
 });
 
 app.get('/room/:roomId/streaming', (req, res) => {
@@ -38,11 +38,8 @@ app.get('/room/:roomId/streaming', (req, res) => {
             clearInterval(interValID);
         } else {
             for(const event of room.getPendingEvents(name)) {
-                event.consumed = event.consumed.map(consumed => {
-                    if(consumed.id === name) consumed.consumed = true;
-                    return consumed;
-                });
-                res.write(`data: ${JSON.stringify(event)}\n\n`);
+                event.ack(name);
+                res.write(`data: ${JSON.stringify(event.toClient())}\n\n`);
             }
         }
     }, 300);
@@ -65,18 +62,35 @@ app.patch('/room/:roomId/videoId/:videoId', (req, res) => {
     const room = rooms.get(req.params.roomId);
     if(!room) return res.status(404).send('Room not found');
 
-    room.addVideo(req.params.videoId);
+    room.addVideo(req.params.videoId, req.query.name as string);
     res.status(200).send('ok');
 });
 
-app.patch('/room/:roomId/playerMetadata', (req, res) => {
+app.post('/room/:roomId/pause', (req, res) => {
     const room = rooms.get(req.params.roomId);
     if(!room) return res.status(404).send('Room not found');
 
-    room.addMetadata(req.body);
+    room.pauseVideo(req.query.name as string);
     res.status(200).send('ok');
 });
 
+app.post('/room/:roomId/resume', (req, res) => {
+    const room = rooms.get(req.params.roomId);
+    if(!room) return res.status(404).send('Room not found');
+
+    room.resumeVideo(req.query.name as string);
+    res.status(200).send('ok');
+});
+
+app.post('/room/:roomId/currentTimestamp', (req, res) => {
+    const room = rooms.get(req.params.roomId);
+    if(!room) return res.status(404).send('Room not found');
+    room.updateCurrentTimestamp(req.query.name as string, req.body.currentTimestamp as number);
+    res.status(200).send('ok');
+})
+
 app.listen(port, () => {
     console.log(`Rage party listening on port ${port}`)
+    console.log('Creating random room with id 1234');
+    rooms.set('1234', new Room('1234'));
 });

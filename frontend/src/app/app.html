@@ -16,10 +16,6 @@
     </ul>
 }
 
-@for (event of eventsReceived(); track $index) {
-    <p>{{event}}</p>
-}
-
 <div [hidden]="!roomService.anyRoomJoined()">
     <label>
         Search youtube video

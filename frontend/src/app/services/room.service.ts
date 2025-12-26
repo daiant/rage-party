@@ -15,13 +15,17 @@ export class RoomService {
   private url = 'http://localhost:5723/room/';
   private joinedRoom = signal<Room | null>(null);
 
+  public getId(): string {
+    return this.joinedRoom()?.roomId ?? '';
+  }
+
   public availableListeners(): string[] {
     return this.joinedRoom()?.listeners ?? [];
   }
 
   getEvents() {
     const roomId = this.joinedRoom()?.roomId;
-    if(!roomId) return Promise.reject('No room joined');
+    if (!roomId) return Promise.reject('No room joined');
 
     return fetch(`${this.url + roomId}/streaming?name=${this.joinedRoom()!.userName}`, {method: 'GET'});
   }
@@ -38,19 +42,48 @@ export class RoomService {
   public async setVideoId(videoId: string): Promise<void> {
     const room = this.joinedRoom();
     if (!room) return;
-    await fetch(`${this.url + room.roomId}/videoId/${videoId}`, {method: 'PATCH'});
+    await fetch(`${this.url + room.roomId}/videoId/${videoId}?name=${this.joinedRoom()!.userName}`, {method: 'PATCH'});
   }
 
   public async setPlayerMetadata(roomId: string, metadata: RoomPlayerMetadata): Promise<void> {
-    await fetch(`${this.url + roomId}/playerMetadata`, {method: 'PATCH', body: JSON.stringify(metadata), headers: {'Content-Type': 'application/json'}});
+    await fetch(`${this.url + roomId}/playerMetadata?name=${this.joinedRoom()!.userName}`, {
+      method: 'PATCH',
+      body: JSON.stringify(metadata),
+      headers: {'Content-Type': 'application/json'}
+    });
+  }
+
+  public async setCurrentTimestamp(roomId: string, timestamp: number): Promise<void> {
+    await fetch(`${this.url + roomId}/currentTimestamp?name=${this.joinedRoom()!.userName}`, {
+      method: 'POST',
+      body: JSON.stringify({currentTimestamp: timestamp}),
+      headers: {'Content-Type': 'application/json'}
+    });
   }
 
   public anyRoomJoined(): boolean {
     return Boolean(this.joinedRoom());
   }
-  public setPlayerStatus(data: 1 | 2, emitEvent = true) {
-    if(!this.joinedRoom()) return;
 
-    void this.setPlayerMetadata(this.joinedRoom()!.roomId, {state: data});
+  playVideo(): void {
+    const roomId = this.joinedRoom()?.roomId;
+    if (!roomId) return;
+
+    void fetch(`${this.url + roomId}/resume?name=${this.joinedRoom()!.userName}`, {
+      method: 'POST',
+    });
+  }
+
+  pauseVideo(): void {
+    const roomId = this.joinedRoom()?.roomId;
+    if (!roomId) return;
+
+    void fetch(`${this.url + roomId}/pause?name=${this.joinedRoom()!.userName}`, {
+      method: 'POST',
+    });
+  }
+
+  addListener(emitter: string) {
+    this.joinedRoom()?.listeners.push(emitter);
   }
 }

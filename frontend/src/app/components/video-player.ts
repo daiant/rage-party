@@ -14,7 +14,6 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
     this.video.initializePlayer(
       this.onPlayerStateChange(),
       {
-        mute: true,
         autoplay: false,
         playsinline: false,
         controls: true,
