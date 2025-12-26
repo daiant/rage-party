@@ -77,7 +77,6 @@ app.post('/room/:roomId/pause', (req, res) => {
 app.post('/room/:roomId/resume', (req, res) => {
     const room = rooms.get(req.params.roomId);
     if(!room) return res.status(404).send('Room not found');
-
     room.resumeVideo(req.query.name as string);
     res.status(200).send('ok');
 });

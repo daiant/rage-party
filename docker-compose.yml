@@ -1,0 +1,24 @@
+services:
+  frontend:
+    image: "node:24.11.0-slim"
+    container_name: "rage-party-frontend"
+    working_dir: /app
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    command: "npx ng serve --host 0.0.0.0 --poll=2000 --port 4200 --allowed-hosts true"
+  server:
+    image: "node:24.11.0-slim"
+    container_name: "rage-party-server"
+    build: ./backend
+    volumes:
+      - ./backend:/app
+      - ./backend/node_modules:/app/node_modules
+    ports:
+      - "5723:5723"
+    command: npm run start
+    working_dir: /app
+    restart: unless-stopped
