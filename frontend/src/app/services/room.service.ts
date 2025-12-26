@@ -1,4 +1,5 @@
 import {Injectable, signal} from "@angular/core";
+import {environment} from "../../environments/environment";
 
 type RoomPlayerMetadata = Partial<{ currentTimestamp: number, state: 1 | 2 }>;
 
@@ -12,7 +13,7 @@ type Room = {
 
 @Injectable({providedIn: "root"})
 export class RoomService {
-  private url = 'http://localhost:5723/room/';
+  private url = `${environment.apiUrl}room/`;
   private joinedRoomUser = signal<string | null>(null);
   private joinedRoomId = signal<string | null>(null);
   private joinedRoomListeners = signal<string[]>([]);
