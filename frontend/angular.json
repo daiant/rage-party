@@ -62,7 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "rage-party:build:production"
+              "buildTarget": "rage-party:build:production",
+              "host": "0.0.0.0",
+              "port": 4200,
+              "allowedHosts": true
             },
             "development": {
               "buildTarget": "rage-party:build:development"
