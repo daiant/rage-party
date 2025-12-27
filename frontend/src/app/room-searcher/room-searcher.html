@@ -19,7 +19,11 @@
     <p>o bien</p>
 
     <label class="host">
-        Crea tu sala
+        @if (form().value().host) {
+            Únete a una sala
+        } @else {
+                    Crea una sala
+        }
         <input type="checkbox" [field]="form.host"/>
     </label>
 </fieldset>
