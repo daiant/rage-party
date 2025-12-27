@@ -1,12 +1,16 @@
 <fieldset>
     <legend>
+        @if (form().value().host) {
+        Crea una sala
+        } @else {
         Únete
+        }
     </legend>
 
     <input type="text" placeholder="Código de invitación" [field]="form.room"/>
 
     @if (!nameStep()) {
-        <button type="button" (click)="searchRoom()">Buscar sala</button>
+        <button type="button" (click)="searchRoom()">Siguiente</button>
     } @else {
         <input type="text" [field]="form.name" placeholder="Tu nombre"/>
         <button type="button" (click)="joinRoom()">Entrar</button>
