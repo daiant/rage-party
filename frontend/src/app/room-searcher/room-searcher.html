@@ -1,0 +1,21 @@
+<fieldset>
+    <legend>
+        Únete
+    </legend>
+
+    <input type="text" placeholder="Código de invitación" [field]="form.room"/>
+
+    @if (!nameStep()) {
+        <button type="button" (click)="searchRoom()">Buscar sala</button>
+    } @else {
+        <input type="text" [field]="form.name" placeholder="Tu nombre"/>
+        <button type="button" (click)="joinRoom()">Entrar</button>
+    }
+
+    <p>o bien</p>
+
+    <label class="host">
+        Crea tu sala
+        <input type="checkbox" [field]="form.host"/>
+    </label>
+</fieldset>

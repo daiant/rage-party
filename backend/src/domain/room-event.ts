@@ -13,7 +13,7 @@ export class RoomEvents {
   }
 
   public getPendingEventsByConsumer(consumer: string): RoomEvent[] {
-    return this.events.filter(event => !event.isAckedBy(consumer) && !event.isEmittedBy(consumer));
+    return this.events.filter(event => !event.isAckedBy(consumer));
   }
 }
 

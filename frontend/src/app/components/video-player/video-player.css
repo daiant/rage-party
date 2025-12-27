@@ -1,0 +1,14 @@
+.video-container {
+    display: flex;
+    gap: 16px;
+    margin-inline-end: 12px;
+
+    #player {
+        flex: 5;
+    }
+    .playlist {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}

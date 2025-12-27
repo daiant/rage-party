@@ -34,6 +34,7 @@ export class DirectorService {
           emitter: string,
         };
 
+        console.log('Received event: ', event);
         if (event.type === 'timestamp_request') {
           await room.setCurrentTimestamp(video.getCurrentTime());
         } else if (event.type === 'current_timestamp' && event.data?.currentTimestamp) {
@@ -49,6 +50,8 @@ export class DirectorService {
           room.addListener(event.emitter);
         } else if (event.type === 'listener_left') {
           room.removeListener(event.emitter);
+        } else if (event.type === 'playlist_updated') {
+          room.setPlaylist(event.data.playlist);
         }
       }
     }

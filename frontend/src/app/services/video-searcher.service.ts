@@ -8,7 +8,7 @@ type YoutubeSearchResultVideo = {
     channelId: string,
     channelTitle: string,
     publishedAt: string,
-    thumbnails: { default: { url: string } },
+    thumbnails: { medium: { url: string } },
     title: string,
   }
 }
@@ -47,7 +47,7 @@ export class VideoSearcherService {
       channelId: video.snippet.channelId,
       channelTitle: video.snippet.channelTitle,
       publishedAt: video.snippet.publishedAt,
-      thumbnail: video.snippet.thumbnails.default.url,
+      thumbnail: video.snippet.thumbnails.medium.url,
     }))
   }
 }

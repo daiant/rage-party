@@ -1,5 +1,6 @@
 import {Injectable, signal} from "@angular/core";
 import {environment} from "../../environments/environment";
+import {VideoThumbnail} from "./video-searcher.service";
 
 type RoomPlayerMetadata = Partial<{ currentTimestamp: number, state: 1 | 2 }>;
 
@@ -9,6 +10,7 @@ type Room = {
   listeners: string[];
   videoId: string | null;
   playerMetadata: RoomPlayerMetadata | null;
+  playlist: Pick<VideoThumbnail, 'id' | 'title' | 'thumbnail'>[];
 }
 
 @Injectable({providedIn: "root"})
@@ -17,7 +19,7 @@ export class RoomService {
   private joinedRoomUser = signal<string | null>(null);
   private joinedRoomId = signal<string | null>(null);
   private joinedRoomListeners = signal<string[]>([]);
-
+  private playlist = signal<Pick<VideoThumbnail, 'id' | 'title' | 'thumbnail'>[]>([]);
   private abortController = new AbortController();
 
   public getId(): string {
@@ -32,7 +34,10 @@ export class RoomService {
     const roomId = this.joinedRoomId();
     if (!roomId) return Promise.reject('No room joined');
 
-    return fetch(`${this.url + roomId}/streaming?name=${this.joinedRoomUser()}`, {method: 'GET', signal: this.abortController.signal});
+    return fetch(`${this.url + roomId}/streaming?name=${this.joinedRoomUser()}`, {
+      method: 'GET',
+      signal: this.abortController.signal
+    });
   }
 
   public async joinRoom(roomId: string, name: string): Promise<Room | null> {
@@ -47,6 +52,7 @@ export class RoomService {
     this.joinedRoomUser.set(room.userName);
     this.joinedRoomId.set(room.roomId);
     this.joinedRoomListeners.set(room.listeners);
+    this.playlist.set(room.playlist);
     return room;
   }
 
@@ -112,11 +118,39 @@ export class RoomService {
     this.abortController.abort('User left the room.');
   }
 
-  addListener(emitter: string) {
-    this.joinedRoomListeners.update( listeners => ([...listeners, emitter]) );
+  addListener(emitter: string): void {
+    this.joinedRoomListeners.update(listeners => ([...listeners, emitter]));
   }
 
-  removeListener(emitter: string) {
-    this.joinedRoomListeners.update( listeners => listeners.filter(listener => listener !== emitter) );
+  removeListener(emitter: string): void {
+    this.joinedRoomListeners.update(listeners => listeners.filter(listener => listener !== emitter));
   }
+
+  requestNextVideo(): void {
+    void fetch(`${this.url + this.joinedRoomId()}/nextVideo?name=${this.joinedRoomUser()}`, {method: 'POST'});
+  }
+
+  requestNextVideoFromPlaylist(video: Pick<VideoThumbnail, "id" | "title" | "thumbnail">) {
+    void fetch(`${this.url + this.joinedRoomId()}/nextVideo/${video.id}?name=${this.joinedRoomUser()}`, {method: 'POST'});
+  }
+
+  addVideoToPlaylist(video: Pick<VideoThumbnail, 'id' | 'title' | 'thumbnail'>) {
+    void fetch(`${this.url + this.joinedRoomId()}/playlist?name=${this.joinedRoomUser()}`, {
+        method: 'POST', body: JSON.stringify(video), headers: {'Content-Type': 'application/json'
+      }
+    });
+  }
+
+  async getCurrentVideo(): Promise<{videoId: string, currentTimestamp: number}> {
+    return await fetch(`${this.url + this.joinedRoomId()}/currentVideo?name=${this.joinedRoomUser()}`).then(res => res.json());
+  }
+
+  setPlaylist(playlist: VideoThumbnail[]): void {
+    this.playlist.set(playlist);
+  }
+
+  getPlaylist(): Pick<VideoThumbnail, 'id' | 'title' | 'thumbnail'>[] {
+    return this.playlist();
+  }
+
 }

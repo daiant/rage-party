@@ -8,11 +8,18 @@ export enum RoomPlayerState {
   NOT_STARTED = -1,
 }
 
+export type Video = {
+  id: string,
+  title: string,
+  thumbnail: string,
+}
+
 export type RoomId = string;
 export class Room {
   private readonly roomId: RoomId;
   listeners: string[] = [];
   videoId: string | null = null;
+  playlist: Video[] = [];
   playerMetadata: Partial<{ currentTimestamp: number, state: RoomPlayerState }> | null = null;
   events: RoomEvents = new RoomEvents([]);
 
@@ -22,7 +29,7 @@ export class Room {
   }
 
   private addEvent(event: string, emitter: 'system' | string & {}, data?: any): void {
-    this.addEventToListeners(event, emitter, this.listeners, data);
+    this.addEventToListeners(event, emitter, this.listeners.filter(listener => listener !== emitter), data);
   }
 
   private addEventToListeners(event: string, emitter: 'system' | string & {}, listeners: string[], data?: any): void {
@@ -40,9 +47,9 @@ export class Room {
     return this.events.getPendingEventsByConsumer(name);
   }
 
-  public addVideo(id: string, emitter: string) {
+  public setVideo(id: string, emitter: string) {
     this.videoId = id;
-    this.addEvent('video_added', emitter, {videoId: id});
+    this.addEventToListeners('video_added', emitter,  this.listeners, {videoId: id});
   }
 
   public requestTimestamp(emitter: string): void {
@@ -58,6 +65,7 @@ export class Room {
       videoId: this.videoId,
       listeners: this.listeners,
       playerMetadata: this.playerMetadata,
+      playlist: this.playlist,
     }
   }
 
@@ -90,5 +98,34 @@ export class Room {
 
   updateCurrentTimestamp(emitter: string, currentTimestamp: number) {
     this.addEvent('current_timestamp', emitter, {currentTimestamp});
+  }
+
+  nextVideo(emitter: string) {
+    const nextVideo = this.playlist.shift();
+    if(!nextVideo) return;
+
+    this.addEventToListeners('playlist_updated', emitter, this.listeners, {playlist: this.playlist});
+    this.setVideo(nextVideo.id, emitter);
+  }
+
+  nextVideoFromPlaylist(videoId: string, emitter: string) {
+    const nextVideo = this.playlist.find(video => video.id === videoId);
+    if(!nextVideo) return;
+    this.playlist.splice(this.playlist.indexOf(nextVideo),1);
+
+    this.addEventToListeners('playlist_updated', emitter, this.listeners, {playlist: this.playlist});
+    this.setVideo(nextVideo.id, emitter);
+  }
+
+  addVideoToPlaylist(video: Video, emitter: string) {
+    this.playlist.push(video);
+    this.addEventToListeners('playlist_updated', emitter, this.listeners, {playlist: this.playlist});
+  }
+
+  currentVideo() {
+    return {
+      videoId: this.videoId,
+      currentTimestamp: this.playerMetadata?.currentTimestamp ?? 0,
+    }
   }
 }

@@ -27,7 +27,11 @@ app.delete('/room/:roomId/listener/:listener', (req, res) => {
     
     rooms.get(roomId)?.removeListener(listener);
     res.status(200).send('ok');
-})
+});
+
+app.get('/room/:roomId/currentVideo', (req, res) => {
+    res.send(rooms.get(req.params.roomId)?.currentVideo());
+});
 
 app.get('/room/:roomId/streaming', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache');
@@ -70,7 +74,7 @@ app.patch('/room/:roomId/videoId/:videoId', (req, res) => {
     const room = rooms.get(req.params.roomId);
     if(!room) return res.status(404).send('Room not found');
 
-    room.addVideo(req.params.videoId, req.query.name as string);
+    room.setVideo(req.params.videoId, req.query.name as string);
     res.status(200).send('ok');
 });
 
@@ -95,6 +99,20 @@ app.post('/room/:roomId/currentTimestamp', (req, res) => {
     room.updateCurrentTimestamp(req.query.name as string, req.body.currentTimestamp as number);
     res.status(200).send('ok');
 });
+
+app.post('/room/:roomId/nextVideo', (req, res) => {
+    rooms.get(req.params.roomId)?.nextVideo(req.query.name as string);
+});
+
+app.post('/room/:roomId/nextVideo/:videoId', (req, res) => {
+    rooms.get(req.params.roomId)?.nextVideoFromPlaylist(req.params.videoId, req.query.name as string);
+    res.status(200).send('ok');
+});
+
+app.post('/room/:roomId/playlist', (req, res) => {
+    const video: { id: string, thumbnail: string, title: string} = req.body;
+    rooms.get(req.params.roomId)?.addVideoToPlaylist(video, req.query.name as string);
+})
 
 app.listen(port, () => {
     console.log(`Rage party listening on port ${port}`)

@@ -1,7 +1,11 @@
-import {Injectable} from "@angular/core";
+import {Injectable, signal} from "@angular/core";
+import {toObservable} from "@angular/core/rxjs-interop";
+
 @Injectable({providedIn: 'root'})
 export class VideoService {
   private player: any;
+  ready$ = signal(false);
+  ready = toObservable(this.ready$);
 
   public initializePlayer(
     onPlayerStateChange: (data: any) => void,
@@ -14,7 +18,8 @@ export class VideoService {
       mute: boolean,
     }>,
   ): void {
-    (<any>window).onYouTubeIframeAPIReady = () => {
+    this.ready$.set(false);
+
     this.player =
       new (<any>window).YT.Player('player', {
         height: '100%',
@@ -32,8 +37,7 @@ export class VideoService {
           onStateChange: onPlayerStateChange.bind(this),
         }
       });
-    }
-  };
+  }
 
   public getCurrentTime(): number {
     return this.player?.getCurrentTime() ?? 0;
@@ -42,7 +46,7 @@ export class VideoService {
   public playVideo(videoId: string, metadata?: {
     currentTime?: number;
   }): void {
-    if(!this.player) {
+    if (!this.player) {
       throw new Error('Player not initialized');
     }
 
@@ -52,28 +56,37 @@ export class VideoService {
   }
 
   public parseVideoIdByURL(rawURL: string): string | null {
-    if(!rawURL) return null;
+    if (!rawURL) return null;
 
     return new URL(rawURL).searchParams.get('v');
   }
 
-  // The API will call this function when the video player is ready
   private onPlayerReady(event: any) {
+    console.log('Player is ready!');
+    this.ready$.set(true);
     event.target.playVideo();
   }
 
   pauseVideo() {
-    if(this.player.getPlayerState() === (<any>window).YT.PlayerState.PAUSED) {return;}
+    if (this.player.getPlayerState() === (<any>window).YT.PlayerState.PAUSED) {
+      return;
+    }
 
     this.player.pauseVideo();
   }
 
   resumeVideo() {
-    if(this.player.getPlayerState() === (<any>window).YT.PlayerState.PLAYING) {return;}
+    if (this.player.getPlayerState() === (<any>window).YT.PlayerState.PLAYING) {
+      return;
+    }
     this.player.playVideo();
   }
 
   seekTo(currentTimestamp: number) {
     this.player.seekTo(currentTimestamp, true);
+  }
+
+  stopVideo() {
+    this.player.stopVideo();
   }
 }
