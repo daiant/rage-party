@@ -16,6 +16,7 @@ export class VideoService {
       showInfo: boolean,
       playsinline: boolean,
       mute: boolean,
+      disablekb: boolean,
     }>,
   ): void {
     this.ready$.set(false);
@@ -31,6 +32,7 @@ export class VideoService {
           showInfo: +Boolean(options?.showInfo),
           playsinline: +Boolean(options?.playsinline),
           mute: +Boolean(options?.mute),
+          disablekb: +Boolean(options?.disablekb),
         },
         events: {
           onReady: this.onPlayerReady.bind(this),

@@ -41,7 +41,8 @@ export class VideoPlayerComponent implements AfterViewInit {
         playsinline: false,
         showInfo: false,
         rel: false,
-        controls: false,
+        controls: true,
+        disablekb: true
       });
   }
 }
