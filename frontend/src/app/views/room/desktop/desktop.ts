@@ -13,8 +13,13 @@ import {Logo} from "../../../components/ui/logo/logo";
   template: `
       <nav>
           <rp-logo/>
-          <div style="display: flex; gap: 8px;align-items:center ">
-              <span style="text-transform: uppercase;font-size: 20px">Habitación <strong>{{roomId()}}</strong></span>
+          <ul class="opened-windows">
+              @for(openedWindow of getOpenedWindows(); track openedWindow.id) {
+                  <li (click)="openedWindow.toggleOpen()">{{openedWindow.title}}</li>
+              }
+          </ul>  
+          <div class="control-center">
+              <span style="text-transform: uppercase;font-size: 20px">Habitación <strong>{{ roomId() }}</strong></span>
               <rp-button variant="text" (click)="onLeave.emit()">Leave room</rp-button>
           </div>
       </nav>
@@ -46,8 +51,18 @@ import {Logo} from "../../../components/ui/logo/logo";
   ]
 })
 export class Desktop {
-  readonly videoWindow = new RageWindow();
+  // TODO: Instatiaton of windows should be done better, in a desktop service or something
+  readonly videoWindow = new RageWindow('music');
   readonly roomId = input.required<string>();
+
+  protected getOpenedWindows(): RageWindow[] {
+    const windows: RageWindow[] = [];
+    if(this.videoWindow.isOpen()) {
+      windows.push(this.videoWindow);
+    }
+
+    return windows;
+  }
 
   onLeave = output<void>();
 }

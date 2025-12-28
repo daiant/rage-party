@@ -17,8 +17,11 @@ export class RageWindow {
   private state: 'normal' | 'maximized' | 'minimized' | 'closed' = 'normal';
   private document = inject(DOCUMENT);
 
-  constructor() {
+  public title: string = 'Rage Window';
+
+  constructor(title: string) {
     this.id = 'window-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    this.title = title;
   }
 
   public resize(width: number, height: number) {
@@ -70,6 +73,14 @@ export class RageWindow {
     }
   }
 
+  public toggleOpen() {
+    if(this.state === 'closed' || this.state === 'minimized') {
+      this.open();
+    } else {
+      this.minimize();
+    }
+  }
+
   public maximize() {
     if(this.state === 'maximized') {
       this.resize(this.previousSize.width, this.previousSize.height);
@@ -89,7 +100,7 @@ export class RageWindow {
     this.state = 'closed';
   }
 
-  isOpen() {
+  public isOpen() {
     return this.state !== 'closed';
   }
 }
