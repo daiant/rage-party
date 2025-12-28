@@ -1,6 +1,19 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 8px;
+}
+
 #desktop {
     position: relative;
     height: 100%;
+    flex: 1;
 }
 
 rp-window {

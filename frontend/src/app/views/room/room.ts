@@ -5,20 +5,11 @@ import {VideoPlayerComponent} from "../../components/video-player/video-player";
 import {VideoService} from "../../services/video.service";
 import {DirectorService} from "../../services/director.service";
 import {Router} from "@angular/router";
-import {Logo} from "../../components/ui/logo/logo";
-import {Button} from "../../components/ui/button/button";
-import {WindowComponent} from "../../components/ui/window/window.component";
 import {Desktop} from "./desktop/desktop";
 
 @Component({
   templateUrl: './room.html',
-  styleUrl: './room.css',
   imports: [
-    VideoSearcherComponent,
-    VideoPlayerComponent,
-    Logo,
-    Button,
-    WindowComponent,
     Desktop,
   ],
   standalone: true

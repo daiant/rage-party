@@ -3,7 +3,7 @@ import {DOCUMENT, inject} from "@angular/core";
 export class RageWindow {
   private NAV_HEIGHT = 38;
   private INITIAL_SIZE = {width: 800, height: 600};
-  private INITIAL_POSITION: {top: string | number, left: string | number} = {top: 0, left: 'unset'};
+  private INITIAL_POSITION: {top: string | number, left: string | number} = {top: 0, left: 0};
   public readonly id: string;
 
   private lastKnownTransform: CSSKeywordValue | CSSTransformValue | undefined;
@@ -19,7 +19,6 @@ export class RageWindow {
 
   constructor() {
     this.id = 'window-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    this.INITIAL_POSITION.left = (this.document.body.clientWidth - this.INITIAL_SIZE.width * 2);
   }
 
   public resize(width: number, height: number) {
@@ -29,7 +28,7 @@ export class RageWindow {
   }
 
   public move(x: string | number, y: string | number) {
-    this.previousPosition = this.position;
+    this.previousPosition = JSON.parse(JSON.stringify(this.position));
     this.position = {top: y, left: x};
   }
 
@@ -51,7 +50,6 @@ export class RageWindow {
 
   private retrieveTransform() {
     this.lastKnownTransform = this.document.body.querySelector(`#${this.id}`)?.computedStyleMap().get('transform') as CSSKeywordValue | CSSTransformValue;
-    console.log(this.lastKnownTransform);
   }
 
   private setTransform(value: CSSTransformValue | CSSKeywordValue | undefined) {

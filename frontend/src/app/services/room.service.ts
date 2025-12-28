@@ -17,18 +17,10 @@ type Room = {
 export class RoomService {
   private url = `${environment.apiUrl}room/`;
   private joinedRoomUser = signal<string | null>(null);
-  private joinedRoomId = signal<string | null>(null);
+  public joinedRoomId = signal<string | null>(null);
   private joinedRoomListeners = signal<string[]>([]);
   private playlist = signal<Pick<VideoThumbnail, 'id' | 'title' | 'thumbnail'>[]>([]);
   private abortController = new AbortController();
-
-  public getId(): string {
-    return this.joinedRoomId() ?? '';
-  }
-
-  public availableListeners(): string[] {
-    return this.joinedRoomListeners() ?? [];
-  }
 
   getEvents() {
     const roomId = this.joinedRoomId();

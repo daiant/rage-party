@@ -1,16 +1,5 @@
-    <nav>
-        <rp-logo />
-
-        @if (room.anyRoomJoined()) {
-            <div style="display: flex; gap: 8px;align-items:center ">
-                <span style="text-transform: uppercase;font-size: 20px">Habitación <strong>{{room.getId()}}</strong></span>
-                <rp-button variant="text" (click)="leaveRoom()">Leave room</rp-button>
-            </div>
-        }
-    </nav>
     @if (room.anyRoomJoined()) {
-        <rp-desktop />
-
+        <rp-desktop [roomId]="room.joinedRoomId()!" (onLeave)="leaveRoom()"/>
     } @else {
         <p>No tengo</p>
     }

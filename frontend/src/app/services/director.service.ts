@@ -5,7 +5,7 @@ import {Injectable, signal} from "@angular/core";
 @Injectable({providedIn: "root"})
 export class DirectorService {
   public async subscribeToEvents(room: RoomService, video: VideoService): Promise<void> {
-    const roomId = room.getId();
+    const roomId = room.joinedRoomId();
     if(!roomId) return;
 
     const response = await room.getEvents();
