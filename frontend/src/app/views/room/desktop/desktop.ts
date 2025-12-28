@@ -4,25 +4,14 @@ import {WindowComponent} from "../../../components/ui/window/window.component";
 import {VideoPlayerComponent} from "../../../components/video-player/video-player";
 import {VideoSearcherComponent} from "../../../components/video-searcher";
 import {DesktopIcon} from "./desktop-icon";
-import {Button} from "../../../components/ui/button/button";
-import {Logo} from "../../../components/ui/logo/logo";
+import {Navbar} from "./navbar/navbar";
 
 @Component({
   selector: 'rp-desktop',
   styleUrl: './desktop.css',
   template: `
-      <nav>
-          <rp-logo/>
-          <ul class="opened-windows">
-              @for(openedWindow of getOpenedWindows(); track openedWindow.id) {
-                  <li (click)="openedWindow.toggleOpen()">{{openedWindow.title}}</li>
-              }
-          </ul>  
-          <div class="control-center">
-              <span style="text-transform: uppercase;">Habitación <strong>{{ roomId() }}</strong></span>
-              <rp-button variant="text" (click)="onLeave.emit()">Salir</rp-button>
-          </div>
-      </nav>
+      <rp-navbar [openedWindows]="getOpenedWindows()" (onLeave)="onLeave.emit()" />
+      
       <div id="desktop">
           <div class="desktop-icons">
               <rp-desktop-icon [window]="videoWindow">
@@ -37,7 +26,7 @@ import {Logo} from "../../../components/ui/logo/logo";
           @if (videoWindow.isOpen()) {
               <rp-window [window]="videoWindow">
                   <rp-video-searcher/>
-                  <ntv-video-player/>
+                  <ntv-video-player />
               </rp-window>
           }
       </div>`,
@@ -46,8 +35,7 @@ import {Logo} from "../../../components/ui/logo/logo";
     VideoPlayerComponent,
     VideoSearcherComponent,
     DesktopIcon,
-    Button,
-    Logo
+    Navbar
   ]
 })
 export class Desktop {

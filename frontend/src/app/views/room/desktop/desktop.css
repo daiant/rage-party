@@ -3,42 +3,6 @@
     flex-direction: column;
     height: 100%;
 }
-nav {
-    display: flex;
-    align-items: center;
-    padding-inline: 8px;
-    gap: 16px;
-
-    .opened-windows {
-        padding-left: 0;
-        list-style: none;
-        display: flex;
-        gap: 8px;
-        margin-block: 0;
-
-        li {
-            border: 1px solid var(--border-color);
-            padding: 4px 16px;
-            text-align: left;
-            cursor: pointer;
-            user-select: none;
-
-            &:hover {
-                background-color: var(--color-neutral-1);
-                transform: translateY(-1px);
-            }
-            &:active {
-                transform: translateY(0px);
-            }
-        }
-    }
-    .control-center {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-inline-start: auto;
-    }
-}
 
 #desktop {
     position: relative;
