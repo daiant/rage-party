@@ -19,6 +19,7 @@ import {ConnectionPositionPair} from "@angular/cdk/overlay";
           <div class="control-center">
               <rp-button variant="text" [cdkMenuTriggerFor]="menu" [cdkMenuPosition]="positions">
                   <span style="text-transform: uppercase;font-weight: 400">Habitación <strong>{{ room.joinedRoomId() }}</strong></span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,48,88H208a8,8,0,0,1,5.66,13.66Z"></path></svg>
               </rp-button>
           </div>
       </nav>
