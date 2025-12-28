@@ -1,4 +1,4 @@
-import {DOCUMENT, inject} from "@angular/core";
+import {DOCUMENT, ElementRef, inject} from "@angular/core";
 
 export class RageWindow {
   private NAV_HEIGHT = 38;
@@ -14,8 +14,7 @@ export class RageWindow {
   private previousPosition = this.INITIAL_POSITION;
   private position = this.INITIAL_POSITION;
 
-
-
+  private ref = inject(ElementRef);
   private maximized = false;
   private document = inject(DOCUMENT);
 
@@ -80,6 +79,6 @@ export class RageWindow {
   }
 
   public close() {
-    console.log('Cerrando ventana', this.id);
+    this.ref.nativeElement.remove();
   }
 }
