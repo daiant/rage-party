@@ -1,19 +1,19 @@
 <fieldset
         class="window"
         cdkDrag
-        cdkDragBoundary="body"
-        [id]="window.id"
-        [style.width.px]="window.width"
-        [style.height.px]="window.height"
-        [style.top.px]="window.top"
-        [style.left.px]="window.left"
+        cdkDragBoundary="#desktop"
+        [id]="window().id"
+        [style.width.px]="window().width"
+        [style.height.px]="window().height"
+        [style.top.px]="window().top"
+        [style.left.px]="window().left"
 >
     <div class="window-controls">
-        <rp-window-minimize (onClick)="window.minimize()" />
-        <rp-window-maximize (onClick)="window.maximize()"/>
-        <rp-window-close (onClick)="window.close()"/>
+        <rp-window-minimize (onClick)="window().minimize()" />
+        <rp-window-maximize (onClick)="window().maximize()"/>
+        <rp-window-close (onClick)="window().close()"/>
     </div>
-    <legend class="title" cdkDragHandle>{{ title() }}</legend>
+    <legend class="title" cdkDragHandle>Window title</legend>
     <div class="content">
         <ng-content></ng-content>
     </div>

@@ -29,11 +29,10 @@ import {VideoThumbnailComponent} from "../video-thumbnail/video-thumbnail";
 export class VideoPlayerComponent implements AfterViewInit {
   video = inject(VideoService);
   roomService = inject(RoomService);
-  onPlayerStateChange = input.required<(data: any) => void>();
 
   ngAfterViewInit() {
     this.video.initializePlayer(
-      this.onPlayerStateChange(),
+      this.onPlayerStateChange,
       {
         autoplay: false,
         playsinline: false,
@@ -42,5 +41,33 @@ export class VideoPlayerComponent implements AfterViewInit {
         controls: true,
         disablekb: true
       });
+  }
+
+  onPlayerStateChange = ({data}: { target: any, data: number }) => {
+    console.log('Player state changed to: ', data);
+    switch (data) {
+      // ended
+      case 0:
+        this.roomService.requestNextVideo();
+        break;
+      // not started
+      case -1:
+        break;
+      // playing
+      case 1:
+        this.roomService.playVideo();
+        break;
+      // paused
+      case 2:
+        this.roomService.pauseVideo();
+        break;
+      // buffering
+      case 3:
+        break;
+      // video cued
+      case 5:
+        break;
+
+    }
   }
 }

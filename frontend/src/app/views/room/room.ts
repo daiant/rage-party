@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {Logo} from "../../components/ui/logo/logo";
 import {Button} from "../../components/ui/button/button";
 import {WindowComponent} from "../../components/ui/window/window.component";
+import {Desktop} from "./desktop/desktop";
 
 @Component({
   templateUrl: './room.html',
@@ -18,6 +19,7 @@ import {WindowComponent} from "../../components/ui/window/window.component";
     Logo,
     Button,
     WindowComponent,
+    Desktop,
   ],
   standalone: true
 })
@@ -52,34 +54,6 @@ export class RoomComponent {
         }
       }
     });
-  }
-
-  onPlayerStateChange = ({data}: { target: any, data: number }) => {
-    console.log('Player state changed to: ', data);
-    switch (data) {
-      // ended
-      case 0:
-        this.room.requestNextVideo();
-        break;
-      // not started
-      case -1:
-        break;
-      // playing
-      case 1:
-        this.room.playVideo();
-        break;
-      // paused
-      case 2:
-        this.room.pauseVideo();
-        break;
-      // buffering
-      case 3:
-        break;
-      // video cued
-      case 5:
-        break;
-
-    }
   }
 
   protected leaveRoom() {

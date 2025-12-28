@@ -13,7 +13,5 @@ import {RageWindow} from "../../../services/window.service";
   imports: [CdkDrag, CdkDragHandle, Minimize, Maximize, Close],
 })
 export class WindowComponent {
-  readonly title = input<string>('');
-  readonly window = new RageWindow();
-
+  readonly window = input.required<RageWindow>();
 }

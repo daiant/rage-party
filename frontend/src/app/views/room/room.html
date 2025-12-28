@@ -9,23 +9,7 @@
         }
     </nav>
     @if (room.anyRoomJoined()) {
-        <!--    TODO: make-->
-                <!--    <div>-->
-                <!--        <span>You are in room "{{ room.getId() }}"</span>-->
-                <!--    </div>-->
-
-                <!--    @if (room.availableListeners()) {-->
-                <!--        <ul>-->
-                <!--            @for (listener of room.availableListeners(); track listener) {-->
-                <!--                <li>{{ listener }}</li>-->
-                <!--            }-->
-                <!--        </ul>-->
-                <!--    }-->
-
-        <rp-window title="Nothing playing now">
-            <rp-video-searcher/>
-            <ntv-video-player [onPlayerStateChange]="onPlayerStateChange"/>
-        </rp-window>
+        <rp-desktop />
 
     } @else {
         <p>No tengo</p>

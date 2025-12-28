@@ -1,3 +1,7 @@
+:host {
+    display: contents;
+}
+
 .window {
     display: grid;
     border: 2px solid var(--border-color);

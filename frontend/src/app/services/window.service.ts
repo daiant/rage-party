@@ -61,6 +61,11 @@ export class RageWindow {
 
   public minimize() {
     console.log('Minimizando ventana', this.id);
+    this.move(-10000, -10000);
+  }
+
+  public restoreFromMinimize() {
+    this.move(this.previousPosition.left, this.previousPosition.top);
   }
 
   public maximize() {
