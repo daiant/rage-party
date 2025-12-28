@@ -51,10 +51,22 @@
 .button.text {
     border-color: transparent;
     background-color: transparent;
+    padding-block: 0;
     .button-content {
         border-color: transparent;
         color: var(--text-color);
         text-transform: none;
         font-size: var(--font-body);
+    }
+
+    &:hover {
+        padding-block: 0;
+        margin-block-start: 0;
+        transform: translateY(-1px);
+    }
+    &:active {
+        margin-block-start: 0;
+        padding: 0;
+        transform: translateY(0);
     }
 }

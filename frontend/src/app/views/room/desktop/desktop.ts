@@ -19,8 +19,8 @@ import {Logo} from "../../../components/ui/logo/logo";
               }
           </ul>  
           <div class="control-center">
-              <span style="text-transform: uppercase;font-size: 20px">Habitación <strong>{{ roomId() }}</strong></span>
-              <rp-button variant="text" (click)="onLeave.emit()">Leave room</rp-button>
+              <span style="text-transform: uppercase;">Habitación <strong>{{ roomId() }}</strong></span>
+              <rp-button variant="text" (click)="onLeave.emit()">Salir</rp-button>
           </div>
       </nav>
       <div id="desktop">

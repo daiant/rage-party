@@ -14,6 +14,7 @@ nav {
         list-style: none;
         display: flex;
         gap: 8px;
+        margin-block: 0;
 
         li {
             border: 1px solid var(--border-color);
