@@ -1,0 +1,26 @@
+#desktop {
+    position: relative;
+    height: 100%;
+}
+
+rp-window {
+    position: absolute;
+    z-index: 1;
+}
+
+
+.desktop-icons {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: flex-start;
+    z-index: 0;
+    padding: 8px;
+    svg {
+        width: 48px;
+        height: auto;
+    }
+}

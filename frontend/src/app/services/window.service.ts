@@ -14,8 +14,9 @@ export class RageWindow {
   private previousPosition = this.INITIAL_POSITION;
   private position = this.INITIAL_POSITION;
 
-  private ref = inject(ElementRef);
-  private maximized = false;
+  private ref = inject(ElementRef<HTMLElement>);
+
+  private state: 'normal' | 'maximized' | 'minimized' | 'closed' = 'normal';
   private document = inject(DOCUMENT);
 
   constructor() {
@@ -58,32 +59,40 @@ export class RageWindow {
     (this.document.body.querySelector(`#${this.id}`) as HTMLElement)!.style.transform = value?.toString() ?? '';
   }
 
-
   public minimize() {
-    console.log('Minimizando ventana', this.id);
     this.move(-10000, -10000);
+    this.state = 'minimized';
   }
 
-  public restoreFromMinimize() {
-    this.move(this.previousPosition.left, this.previousPosition.top);
+  public open() {
+    if(this.state === 'closed') {
+      this.state = 'normal'
+    } else if(this.state === 'minimized') {
+      this.move(this.previousPosition.left, this.previousPosition.top);
+      this.state = 'normal';
+    }
   }
 
   public maximize() {
-    if(this.maximized) {
+    if(this.state === 'maximized') {
       this.resize(this.previousSize.width, this.previousSize.height);
       this.move(this.previousPosition.left, this.previousPosition.top);
       this.setTransform(this.lastKnownTransform);
+      this.state = 'normal';
     } else {
       this.resize(this.document.body.clientWidth, this.document.body.clientHeight);
       this.move(0, 0);
       this.retrieveTransform();
       this.setTransform(new CSSKeywordValue('none'));
+      this.state = 'maximized';
     }
-
-    this.maximized = !this.maximized;
   }
 
   public close() {
-    this.ref.nativeElement.remove();
+    this.state = 'closed';
+  }
+
+  isOpen() {
+    return this.state !== 'closed';
   }
 }
