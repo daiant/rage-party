@@ -1,9 +1,9 @@
-import {DOCUMENT, ElementRef, inject} from "@angular/core";
+import {DOCUMENT, inject} from "@angular/core";
 
 export class RageWindow {
   private NAV_HEIGHT = 38;
   private INITIAL_SIZE = {width: 800, height: 600};
-  private INITIAL_POSITION = {top: 100, left: 100};
+  private INITIAL_POSITION: {top: string | number, left: string | number} = {top: 0, left: 'unset'};
   public readonly id: string;
 
   private lastKnownTransform: CSSKeywordValue | CSSTransformValue | undefined;
@@ -14,13 +14,12 @@ export class RageWindow {
   private previousPosition = this.INITIAL_POSITION;
   private position = this.INITIAL_POSITION;
 
-  private ref = inject(ElementRef<HTMLElement>);
-
   private state: 'normal' | 'maximized' | 'minimized' | 'closed' = 'normal';
   private document = inject(DOCUMENT);
 
   constructor() {
     this.id = 'window-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    this.INITIAL_POSITION.left = (this.document.body.clientWidth - this.INITIAL_SIZE.width * 2);
   }
 
   public resize(width: number, height: number) {
@@ -29,7 +28,7 @@ export class RageWindow {
     this.size = {width, height: safeHeight};
   }
 
-  public move(x: number, y: number) {
+  public move(x: string | number, y: string | number) {
     this.previousPosition = this.position;
     this.position = {top: y, left: x};
   }

@@ -11,6 +11,9 @@
     font-weight: 700;
     cursor: pointer;
     width: 100%;
+    display: block;
+    min-height: 100%;
+
     &:focus-visible {
         outline: 1px solid var(--text-color);
         outline-offset: 1px;
@@ -27,7 +30,7 @@
         margin-block-start: -1px;
     }
     &:active {
-        margin-block-start: 0px;
+        margin-block-start: 0;
         padding: 0 0 3px 0;
     }
 }
