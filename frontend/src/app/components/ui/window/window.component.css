@@ -18,14 +18,18 @@
     }
 
     .window-controls {
-        padding: 4px 16px;
+        height: 32px;
         border: 2px solid var(--border-color);
         border-radius: 4px;
         background-color: var(--color-neutral-1);
+        padding-inline: 4px;
 
         position: absolute;
         right: 16px;
-        top: -30px;
+        top: -32px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
 

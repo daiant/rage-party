@@ -1,0 +1,35 @@
+:host {
+    display: contents;
+}
+svg {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    padding: 2px;
+    box-sizing: content-box;
+    color: var(--text-color);
+
+}
+
+.window-control {
+    background: transparent;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    display: grid;
+    place-items: center;
+    border-radius: 2px;
+    &:focus-visible {
+        outline-color: var(--primary-color-light);
+        outline-offset: 0;
+    }
+    &:hover {
+        padding-block-end: 1px;
+        margin-block-start: -1px;
+        background-color: var(--color-neutral-2);
+    }
+    &:active {
+        padding-block-end: 0;
+        margin-block-start: 0;
+    }
+}

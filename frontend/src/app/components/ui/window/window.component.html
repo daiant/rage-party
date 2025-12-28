@@ -1,9 +1,8 @@
 <fieldset class="window" cdkDrag cdkDragBoundary="body">
     <div class="window-controls">
-        <span>-</span>
-        <span>+</span>
-        <span>x</span>
-
+        <rp-window-minimize (onClick)="window.minimize()" />
+        <rp-window-maximize (onClick)="window.maximize()"/>
+        <rp-window-close (onClick)="window.close()"/>
     </div>
     <legend class="title" cdkDragHandle>{{ title() }}</legend>
     <div class="content">
