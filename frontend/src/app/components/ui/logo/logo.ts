@@ -17,10 +17,10 @@ import {Component, input} from "@angular/core";
         font-weight: bolder;
         
         p {
-            font-size: 22px;
+            font-size: 16px;
         }
         svg {
-            height: 18px
+            height: 14px;
         }
 
         p {

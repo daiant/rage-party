@@ -5,11 +5,12 @@
     margin: auto;
     position: relative;
     gap: 12px;
-    max-width: min(100%, 400px);
     padding-block: 32px;
     padding-inline: 24px;
     background-color: var(--color-neutral-1);
     box-shadow: 12px 12px 0 0 var(--color-neutral-1);
+    max-width: 100%;
+
     .title {
         background-color: var(--color-neutral-1);
         padding: 4px 16px;
@@ -32,5 +33,7 @@
         gap: 8px;
     }
 
-
+    .content {
+        overflow: auto;
+    }
 }

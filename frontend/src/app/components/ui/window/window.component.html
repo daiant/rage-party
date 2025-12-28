@@ -1,4 +1,13 @@
-<fieldset class="window" cdkDrag cdkDragBoundary="body">
+<fieldset
+        class="window"
+        cdkDrag
+        cdkDragBoundary="body"
+        [id]="window.id"
+        [style.width.px]="window.width"
+        [style.height.px]="window.height"
+        [style.top.px]="window.top"
+        [style.left.px]="window.left"
+>
     <div class="window-controls">
         <rp-window-minimize (onClick)="window.minimize()" />
         <rp-window-maximize (onClick)="window.maximize()"/>
