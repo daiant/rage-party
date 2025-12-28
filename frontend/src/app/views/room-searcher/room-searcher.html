@@ -1,0 +1,30 @@
+<fieldset>
+    <legend>
+        @if (form().value().host) {
+        Crea una sala
+        } @else {
+        Únete
+        }
+    </legend>
+
+    <rp-input type="text" label="Código de invitación" placeholder="00000" [field]="form.room"/>
+
+    <rp-input type="text" [field]="form.name" label="Tu nombre" placeholder="Escribe tu nombre"/>
+    <rp-button (onClick)="joinRoom()" style="width: 100%;">Entrar</rp-button>
+
+    <p>O</p>
+
+    <rp-button (onClick)="onHostValueChange()" variant="secondary">
+        @if (form().value().host) {
+            Únete a una sala
+        } @else {
+                    Crea una sala
+        }
+    </rp-button>
+</fieldset>
+
+<div class="carousel">
+    @for(i of [1,2,3,4,5,6,7,8];track i) {
+        <rp-logo size="big" />
+    }
+</div>

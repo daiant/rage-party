@@ -1,0 +1,12 @@
+<label for="input">
+@if (label()) {
+    <span>{{label()}}</span>
+}
+<input
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [value]="value()"
+    (input)="value.set($any($event.target)!.value)"
+    [disabled]="disabled()"
+/>
+</label>

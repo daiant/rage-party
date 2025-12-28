@@ -8,7 +8,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0  --port 4200 --allowed-hosts true",
     "build": "ng build",
-    "prod" : "ng serve --configuration production",
+    "prod": "ng serve --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -27,6 +27,7 @@
   "private": true,
   "packageManager": "npm@11.6.0",
   "dependencies": {
+    "@angular/cdk": "^21.0.5",
     "@angular/common": "^21.0.0",
     "@angular/compiler": "^21.0.0",
     "@angular/core": "^21.0.0",

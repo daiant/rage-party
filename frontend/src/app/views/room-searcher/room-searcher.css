@@ -1,6 +1,7 @@
 fieldset {
     display: grid;
-    border: 1px solid;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
     margin: auto;
     position: relative;
     top: 45%;
@@ -15,7 +16,9 @@ fieldset {
         font-size: 24px;
         font-weight: bold;
         text-transform: uppercase;
-        padding-inline: 24px;
+        padding: 4px 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 4px;
     }
 
     p {
@@ -75,4 +78,43 @@ button {
     text-transform: uppercase;
     border-radius: 24px;
     padding: 16px 12px;
+}
+
+
+.carousel {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    width: 300vw;
+    overflow: clip;
+    animation: scroll 12s linear infinite;
+    user-select: none;
+
+
+    >div {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: bolder;
+
+        p, svg {
+            font-size: 96px;
+        }
+        svg {
+            height: 72px;
+            width: auto;
+        }
+
+        p {
+            white-space: nowrap;
+            margin-block: 0;
+        }
+
+    }
+}
+@keyframes scroll {
+    100% {
+        transform: translateX(-100vw);
+    }
+
 }

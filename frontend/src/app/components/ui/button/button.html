@@ -1,0 +1,7 @@
+<button type="button"
+        (click)="onClick.emit($event)"
+        [class]="variant()">
+    <div class="button-content">
+        <ng-content></ng-content>
+    </div>
+</button>

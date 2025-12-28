@@ -1,17 +1,23 @@
-import {AfterViewInit, Component, computed, inject, OnInit} from "@angular/core";
-import {RoomService} from "../services/room.service";
-import {VideoSearcherComponent} from "../components/video-searcher";
-import {VideoPlayerComponent} from "../components/video-player/video-player";
-import {VideoService} from "../services/video.service";
-import {DirectorService} from "../services/director.service";
+import { Component, inject} from "@angular/core";
+import {RoomService} from "../../services/room.service";
+import {VideoSearcherComponent} from "../../components/video-searcher";
+import {VideoPlayerComponent} from "../../components/video-player/video-player";
+import {VideoService} from "../../services/video.service";
+import {DirectorService} from "../../services/director.service";
 import {Router} from "@angular/router";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {Logo} from "../../components/ui/logo/logo";
+import {Button} from "../../components/ui/button/button";
+import {WindowComponent} from "../../components/ui/window/window.component";
 
 @Component({
   templateUrl: './room.html',
+  styleUrl: './room.css',
   imports: [
     VideoSearcherComponent,
-    VideoPlayerComponent
+    VideoPlayerComponent,
+    Logo,
+    Button,
+    WindowComponent,
   ],
   standalone: true
 })

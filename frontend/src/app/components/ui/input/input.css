@@ -1,0 +1,22 @@
+label>span {
+    display: block;
+    margin-block-end: 2px;
+    color: var(--color-neutral-8);
+    font-size: var(--font-label);
+}
+input {
+    padding: 8px 12px;
+    font-size: var(--font-body);
+    background-color: var(--color-neutral-2);
+    border-radius: 8px;
+    color: var(--color-neutral-9);
+    outline: none;
+    border: 1px solid transparent;
+    min-height: 48px;
+    display: block;
+    width: 100%;
+
+    &:focus {
+        border: 1px solid var(--border-color);
+    }
+}

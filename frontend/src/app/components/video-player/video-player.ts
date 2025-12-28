@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, inject, input} from '@angular/core';
-import {NgOptimizedImage} from "@angular/common";
 import {VideoService} from "../../services/video.service";
 import {RoomService} from "../../services/room.service";
 import {VideoThumbnailComponent} from "../video-thumbnail/video-thumbnail";
@@ -23,7 +22,6 @@ import {VideoThumbnailComponent} from "../video-thumbnail/video-thumbnail";
       </div>
   `,
   imports: [
-    NgOptimizedImage,
     VideoThumbnailComponent
   ],
   standalone: true

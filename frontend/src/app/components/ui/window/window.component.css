@@ -1,0 +1,32 @@
+.window {
+    display: grid;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    margin: auto;
+    position: relative;
+    gap: 12px;
+    max-width: min(100%, 400px);
+    padding-block: 32px;
+    padding-inline: 24px;
+    background-color: var(--color-neutral-1);
+    box-shadow: 12px 12px 0 0 var(--color-neutral-1);
+    .title {
+        background-color: var(--color-neutral-1);
+        padding: 4px 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 4px;
+    }
+
+    .window-controls {
+        padding: 4px 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 4px;
+        background-color: var(--color-neutral-1);
+
+        position: absolute;
+        right: 16px;
+        top: -30px;
+    }
+
+
+}

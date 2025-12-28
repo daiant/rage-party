@@ -1,23 +1,26 @@
 import {Component, inject, signal} from "@angular/core";
-import {RoomService} from "../services/room.service";
+import {RoomService} from "../../services/room.service";
 import {Field, form, readonly} from "@angular/forms/signals";
 import {Router} from "@angular/router";
+import {Button} from "../../components/ui/button/button";
+import {Input} from "../../components/ui/input/input";
+import {Logo} from "../../components/ui/logo/logo";
 
 @Component({
   standalone: true,
   templateUrl: './room-searcher.html',
   imports: [
     Field,
+    Button,
+    Input,
+    Logo,
   ],
   styleUrl: "./room-searcher.css"
 })
 export class RoomSearcher {
-  form = form(signal({room: '', name: '', host: false}), schemaPath => {
-    readonly(schemaPath.room, () => this.nameStep());
-  });
+  form = form(signal({room: '', name: '', host: false}) );
   roomService = inject(RoomService);
   router = inject(Router);
-  nameStep = signal(false);
 
   protected async joinRoom() {
     const roomId = this.form().value().room;
@@ -33,7 +36,8 @@ export class RoomSearcher {
     void this.router.navigate(['/now-playing']);
   }
 
-  protected async searchRoom() {
-    this.nameStep.set(true);
+  protected onHostValueChange() {
+    console.log('me llame');
+    this.form.host().value.update(value => !value);
   }
 }

@@ -1,0 +1,12 @@
+<fieldset class="window" cdkDrag cdkDragBoundary="body">
+    <div class="window-controls">
+        <span>-</span>
+        <span>+</span>
+        <span>x</span>
+
+    </div>
+    <legend class="title" cdkDragHandle>{{ title() }}</legend>
+    <div class="content">
+        <ng-content></ng-content>
+    </div>
+</fieldset>
