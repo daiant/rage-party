@@ -48,6 +48,14 @@ export class RoomService {
     return room;
   }
 
+  public getName(): string {
+    return this.joinedRoomUser() ?? 'Guest';
+  }
+
+  public getListeners(): string[] {
+    return this.joinedRoomListeners();
+  }
+
   public async setVideoId(videoId: string): Promise<void> {
     const roomId = this.joinedRoomId();
     const roomUser = this.joinedRoomUser();

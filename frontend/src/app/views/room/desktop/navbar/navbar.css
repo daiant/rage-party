@@ -34,3 +34,19 @@ nav {
         margin-inline-start: auto;
     }
 }
+
+.navbar-menu {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    background-color: var(--color-neutral-1);
+    display: grid;
+    justify-content: end;
+    box-shadow: 8px 8px 0 var(--color-neutral-1);
+    span {
+        text-align: end;
+    }
+    &>* {
+        padding-block: 6px;
+    }
+}

@@ -9,4 +9,5 @@ import {Component, input, output} from "@angular/core";
 export class Button {
   readonly onClick = output<Event>();
   readonly variant = input<'primary' | 'secondary' | 'text'>('primary');
+  readonly fontSize = input<'small' | 'medium' | 'large'>('medium');
 }

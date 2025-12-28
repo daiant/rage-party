@@ -25,6 +25,10 @@
         padding: 6px 12px;
     }
 
+    .button-content.small {
+        font-size: var(--font-body);
+    }
+
     &:hover {
         padding: 0 0 4px 0;
         margin-block-start: -1px;
