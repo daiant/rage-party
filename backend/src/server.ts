@@ -102,6 +102,7 @@ app.post('/room/:roomId/currentTimestamp', (req, res) => {
 
 app.post('/room/:roomId/nextVideo', (req, res) => {
     rooms.get(req.params.roomId)?.nextVideo(req.query.name as string);
+    res.status(200).send('ok');
 });
 
 app.post('/room/:roomId/nextVideo/:videoId', (req, res) => {
